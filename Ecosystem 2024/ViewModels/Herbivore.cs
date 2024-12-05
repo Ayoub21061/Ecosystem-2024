@@ -7,11 +7,17 @@ namespace Ecosystem_2024.ViewModels;
 
 public partial class Herbivore : GameObject {
     [ObservableProperty]
-
     private Point velocity = new Point(1.0 , 0.0);
 
-    public Herbivore(Point location) : base(location) {
+    [ObservableProperty]
+    private int energy;
 
+    [ObservableProperty]
+    private int healthpoints;
+
+    public Herbivore(Point location) : base(location) {
+        Energy = 150;
+        Healthpoints = 100;
     }
 
    public void Move()

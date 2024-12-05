@@ -59,8 +59,26 @@
                     </Grid>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type vm:Herbivore}">
-                    <Image Width="64" Height="64"  
+                    <Grid>
+                        <Image Width="64" Height="64"  
                            Source="/Assets/Herbivore.png" />
+
+                        <TextBlock Text="{Binding Energy}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Margin="0,64,0,0"
+                                   Foreground="Purple"
+                                   FontSize="14" /> 
+
+                        <TextBlock Text="{Binding Healthpoints}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Margin="0,78,0,0"
+                                   Foreground="Yellow"
+                                   FontSize="14" /> 
+
+                        
+                    </Grid>
                 </DataTemplate>
             </ItemsControl.DataTemplates>
         </ItemsControl>
