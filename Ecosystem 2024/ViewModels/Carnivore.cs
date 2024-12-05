@@ -10,9 +10,18 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Ecosystem_2024.ViewModels;
 
-public partial class Animal : GameObject {    
+public partial class Animal : GameObject {
+
+    [ObservableProperty]
+
+    private Point velocity = new Point(1.0 , 0.0);    
     
     public Animal(Point location) : base(location) {
         
+    }
+
+    public void Move() {
+
+        Location = Location + Velocity;
     }
 }
