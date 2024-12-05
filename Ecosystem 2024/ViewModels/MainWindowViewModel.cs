@@ -35,6 +35,7 @@ public partial class MainWindowViewModel : GameBase
 
     protected override void Tick() {
         carnivore.ReduceEnergy();
+        carnivore.OrganicWaste();
     }
 
 }

@@ -26,12 +26,15 @@ public partial class Carnivore : GameObject {
     [ObservableProperty]
     private int healthpoints;
 
+    [ObservableProperty]
+    private int organicWasteTime;
 
     private bool isDead;
     
     public Carnivore(Point location) : base(location) {
         Energy = 100;
         Healthpoints = 100;
+        OrganicWasteTime = 50;
     }
 
     public void Move() {
@@ -42,7 +45,6 @@ public partial class Carnivore : GameObject {
         isDead = true;
         CurrentImage = new Bitmap("Assets/Viande.png");
     }
-
     public void ReduceEnergy() {
         if(!isDead) {
             Energy--;
@@ -59,8 +61,21 @@ public partial class Carnivore : GameObject {
             Healthpoints--;
             if(Healthpoints <= 0) {
                 Die();
-
             }
         }
     }
+
+    public void OrganicWaste() {
+        if(Healthpoints == 0) {
+            OrganicWasteTime--;
+                if(OrganicWasteTime == 0) {
+                    CurrentImage = new Bitmap("Assets/Déchet.png");
+                }
+        }
+    }
+        
+            
+
+    //     }
+    // }
 }
