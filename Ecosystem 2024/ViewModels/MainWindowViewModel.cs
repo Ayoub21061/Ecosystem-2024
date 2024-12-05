@@ -39,11 +39,53 @@ public partial class MainWindowViewModel : GameBase
                 carnivore.ReduceEnergy();
                 carnivore.OrganicWaste();
                 carnivore.Move();
+
+            GameObject? closestHerbivore = null;
+            double closestDistance = double.MaxValue;
+
+                // Chercher un herbivore dans le champ de vision
+            foreach (var other in GameObjects)
+            {
+                if (other is Herbivore potentialHerbivore && carnivore.SawOpponent(potentialHerbivore))
+                {
+                    var distance = Math.Sqrt(
+                        Math.Pow(potentialHerbivore.Location.X - carnivore.Location.X, 2) +
+                        Math.Pow(potentialHerbivore.Location.Y - carnivore.Location.Y, 2)
+                    );
+
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestHerbivore = potentialHerbivore;
+                    }
+                }            
             }
+
+            if (closestHerbivore != null)
+            {
+                // Calcul de la direction vers la cible
+                var direction = new Point(
+                    closestHerbivore.Location.X - carnivore.Location.X,
+                    closestHerbivore.Location.Y - carnivore.Location.Y
+                );
+
+                // Calcul de la magnitude (distance)
+                var magnitude = Math.Sqrt(direction.X * direction.X + direction.Y * direction.Y);
+
+                if (magnitude > 0)
+                {
+                    // On crée un vecteur normalisé qui permettra d'établir le vecteur le plus petit possible pour parvenir le plus rapidement possible à la position de la proie. Egalement le vecteur le plus facile à initialiser pour le déplacement en 2D des être vivants. On met également à jour la vitesse du prédateur qui dépend de la position de la proie.
+                    direction = new Point(direction.X / magnitude, direction.Y / magnitude);
+                    carnivore.Velocity = new Point(direction.X * carnivore.Speed, direction.Y * carnivore.Speed);
+                }
+
                 
+
+
+            }     
+            }
         }
-
         herbivore.Move();
-    }
 
+    }
 }

@@ -30,11 +30,24 @@ public partial class Carnivore : GameObject {
     private int organicWasteTime;
 
     private bool isDead;
+
+    public double Vision {get; set;} = 100;
+    public double Speed {get; set;} = 2.0;
     
     public Carnivore(Point location) : base(location) {
         Energy = 100;
         Healthpoints = 100;
         OrganicWasteTime = 50;
+    }
+
+    // Code qui permet de calculer la distance entre un carnivore et un autre être vivant
+    public bool SawOpponent(GameObject other) {
+        // Formule de la distance 
+        var distance = Math.Sqrt(
+            Math.Pow(Location.X - other.Location.X, 2) +
+            Math.Pow(Location.Y - other.Location.Y, 2));
+        // Si la distance est plus petite que le rayon de vision de l'animal, alors l'animal target l'être vivant.
+        return distance <= Vision;                                   
     }
 
     public void Move() {
