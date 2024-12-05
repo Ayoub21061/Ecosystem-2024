@@ -41,6 +41,10 @@
                         <Image Width="64" Height="64" Source="{Binding CurrentImage}" />
                     </Grid>
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:Herbivore}">
+                    <Image Width="64" Height="64"  
+                           Source="/Assets/Herbivore.png" />
+                </DataTemplate>
             </ItemsControl.DataTemplates>
         </ItemsControl>
     </Grid>
