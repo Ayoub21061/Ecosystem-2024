@@ -48,6 +48,17 @@ public partial class MainWindowViewModel : GameBase
         foreach(var herbivore in herbivores) {
             GameObjects.Add(herbivore);
         }
+
+        var Plantes = new List<Plante>() {
+            new Plante(new Point((Width + 1)*2 / 3, Height/3)),
+            new Plante(new Point((Width + 50)*2 / 3, Height/3)),
+            new Plante(new Point((Width + 150)*2 / 3 , Height/3)),
+            new Plante(new Point((Width + 250)*2 / 3, Height/3))
+        };
+
+        foreach(var plante in Plantes) {
+            GameObjects.Add(plante);
+        }
     }
 
     protected override void Tick() {
