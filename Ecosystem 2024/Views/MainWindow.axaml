@@ -45,8 +45,17 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Top"
                                    Margin="0,64,0,0"
-                                   Foreground="White"
+                                   Foreground="Blue"
                                    FontSize="14" />
+
+                        <TextBlock Text="{Binding Healthpoints}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Margin="0,78,0,0"
+                                   Foreground="Yellow"
+                                   FontSize="14" /> 
+                                    
+
                     </Grid>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type vm:Herbivore}">
