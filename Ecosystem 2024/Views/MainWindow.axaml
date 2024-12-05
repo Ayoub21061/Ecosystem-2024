@@ -17,6 +17,15 @@
     </Window.Styles>  
 
     <Grid>
+
+        <!-- Image de fond -->
+        <Image Source="/Assets/Herbe.png" 
+               Stretch="UniformToFill" 
+               HorizontalAlignment="Center" 
+               VerticalAlignment="Center"
+               Width="800"
+               Height="450"/>
+
         <!-- ItemsControl pour les GameObjects -->
         <ItemsControl ItemsSource="{Binding GameObjects}">
             <ItemsControl.ItemsPanel>
