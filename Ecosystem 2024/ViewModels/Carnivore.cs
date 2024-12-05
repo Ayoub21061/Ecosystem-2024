@@ -38,7 +38,9 @@ public partial class Carnivore : GameObject {
     }
 
     public void Move() {
-        Location = Location + Velocity;
+        if(!isDead) {
+            Location = Location + Velocity;
+        }
     }
 
     public void Die() {
@@ -73,9 +75,4 @@ public partial class Carnivore : GameObject {
                 }
         }
     }
-        
-            
-
-    //     }
-    // }
 }

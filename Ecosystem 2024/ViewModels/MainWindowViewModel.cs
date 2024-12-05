@@ -34,8 +34,16 @@ public partial class MainWindowViewModel : GameBase
     }
 
     protected override void Tick() {
-        carnivore.ReduceEnergy();
-        carnivore.OrganicWaste();
+        foreach(var obj in GameObjects) {
+            if (obj is Carnivore carnivore) {
+                carnivore.ReduceEnergy();
+                carnivore.OrganicWaste();
+                carnivore.Move();
+            }
+                
+        }
+
+        herbivore.Move();
     }
 
 }
