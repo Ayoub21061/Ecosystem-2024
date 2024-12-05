@@ -17,8 +17,8 @@ namespace Ecosystem_2024.ViewModels;
 
 public partial class MainWindowViewModel : GameBase
 {
-    public Carnivore carnivore;
-    public Herbivore herbivore;
+    public Carnivore? carnivore;
+    public Herbivore? herbivore;
     public int Width {get;} = 800;
 
     public int Height {get;} = 450;
@@ -28,11 +28,25 @@ public partial class MainWindowViewModel : GameBase
     // Liste des objets à afficher
     public ObservableCollection<GameObject> GameObjects { get; } = new();
     public MainWindowViewModel() {
-        carnivore = new Carnivore(new Point(Width/2, Height/2));
-        GameObjects.Add(carnivore);
+        var carnivores = new List<Carnivore>() {
+            new Carnivore(new Point(Width/2, Height/2)),
+            new Carnivore(new Point(Width / 2 + 50, Height / 2 + 50)),
+            new Carnivore(new Point(Width / 2 + 100, Height / 2 + 100))
+        };
 
-        herbivore = new Herbivore(new Point(Width/2+32, Height/2+32));
-        GameObjects.Add(herbivore);
+        foreach(var carnivore in carnivores) {
+            GameObjects.Add(carnivore);
+        }
+        
+        var herbivores = new List<Herbivore>() {
+            new Herbivore(new Point(Width / 2 + 10, Height / 2 + 10)),
+            new Herbivore(new Point(Width / 2 + 60, Height / 2 + 30)),
+            new Herbivore(new Point(Width / 2 + 80, Height / 2 + 80))
+        };
+
+        foreach(var herbivore in herbivores) {
+            GameObjects.Add(herbivore);
+        }
     }
 
     protected override void Tick() {
@@ -117,6 +131,7 @@ public partial class MainWindowViewModel : GameBase
                 herbivore.Velocity = new Point(-herbivore.Velocity.X, herbivore.Velocity.Y);
             }
         }
+            
 
 
 
