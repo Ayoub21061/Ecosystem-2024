@@ -1,8 +1,26 @@
-﻿namespace Ecosystem_2024.ViewModels;
+﻿using Avalonia;
+using Avalonia.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
+using SkiaSharp;
+using System;
+using System.Collections.ObjectModel;
+using System.Security.Cryptography;
+using System.Threading;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.Json;
+using Avalonia.Markup.Xaml.MarkupExtensions;
 
-public partial class MainWindowViewModel : ViewModelBase
+
+namespace Ecosystem_2024.ViewModels;
+
+public partial class MainWindowViewModel : GameBase
 {
-#pragma warning disable CA1822 // Mark members as static
-    public string Greeting => "Welcome to Avalonia!";
-#pragma warning restore CA1822 // Mark members as static
+    
+       // Liste des objets à afficher
+    public ObservableCollection<GameObject> GameObjects { get; } = new();
+    public MainWindowViewModel() {}
+
+    protected override void Tick() {}
+
 }
