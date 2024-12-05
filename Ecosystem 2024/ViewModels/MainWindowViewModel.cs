@@ -22,8 +22,10 @@ public partial class MainWindowViewModel : GameBase
     public int Width {get;} = 800;
 
     public int Height {get;} = 450;
+    List<GameObject> ToRemove = new List<GameObject>();
+
     
-       // Liste des objets à afficher
+    // Liste des objets à afficher
     public ObservableCollection<GameObject> GameObjects { get; } = new();
     public MainWindowViewModel() {
         carnivore = new Carnivore(new Point(Width/2, Height/2));
@@ -38,12 +40,11 @@ public partial class MainWindowViewModel : GameBase
             if (obj is Carnivore carnivore) {
                 carnivore.ReduceEnergy();
                 carnivore.OrganicWaste();
-                carnivore.Move();
 
             GameObject? closestHerbivore = null;
             double closestDistance = double.MaxValue;
 
-                // Chercher un herbivore dans le champ de vision
+            // Chercher un herbivore dans le champ de vision
             foreach (var other in GameObjects)
             {
                 if (other is Herbivore potentialHerbivore && carnivore.SawOpponent(potentialHerbivore))
@@ -79,13 +80,27 @@ public partial class MainWindowViewModel : GameBase
                     carnivore.Velocity = new Point(direction.X * carnivore.Speed, direction.Y * carnivore.Speed);
                 }
 
-                
-
-
-            }     
+                // Cela permet de gérer les collisions de chaque carnivore selon la distance qu'ils ont avec leur cible herbivore
+                if(magnitude < 5)
+                {
+                    ToRemove.Add(closestHerbivore);
+                    Console.WriteLine("Je t'ai mangé");
+                    carnivore.Energy += 20;
+                }
+            }  
+                carnivore.Move();   
+            }
+            
+            if (obj is Herbivore herbivore) {
+                herbivore.Move();
             }
         }
-        herbivore.Move();
+            foreach(GameObject obj in ToRemove) {
+                GameObjects.Remove(obj);
+            }
 
+        
+
+        
     }
 }
