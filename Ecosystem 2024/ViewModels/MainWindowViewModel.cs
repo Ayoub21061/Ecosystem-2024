@@ -103,35 +103,49 @@ public partial class MainWindowViewModel : GameBase
                         carnivore.Energy += 20;
                     }
                 }  
-                    carnivore.Move();   
+                    carnivore.Move();
+
+                    if(carnivore.Location.X > Width-64) {
+                    carnivore.Velocity = new Point(-carnivore.Velocity.X, carnivore.Velocity.Y);
+                    }
+
+                    if(carnivore.Location.X < 0) {
+                    carnivore.Velocity = new Point(-carnivore.Velocity.X, carnivore.Velocity.Y);
+                    }   
+
+                    if(carnivore.Location.Y > Height-64) {
+                        carnivore.Velocity = new Point(carnivore.Velocity.X, -carnivore.Velocity.Y);
+                    }
+
+                    if(carnivore.Location.Y < 0 ) {
+                        carnivore.Velocity = new Point(carnivore.Velocity.X, -carnivore.Velocity.Y);
+                    }
             }
 
             if (obj is Herbivore herbivore) {
                 herbivore.Move();
+
+                if(herbivore.Location.X > Width-64) {
+                    herbivore.Velocity = new Point(-herbivore.Velocity.X, herbivore.Velocity.Y);
+                }
+
+                if(herbivore.Location.X < 0) {
+                    herbivore.Velocity = new Point(-herbivore.Velocity.X, herbivore.Velocity.Y);
+                }
+
+                if(herbivore.Location.Y > Height-64) {
+                    herbivore.Velocity = new Point(herbivore.Velocity.X, -herbivore.Velocity.Y);
+                }
+
+                if(herbivore.Location.Y < 0) {
+                    herbivore.Velocity = new Point(herbivore.Velocity.X, -herbivore.Velocity.Y);
+                }
             }
         }
             foreach(GameObject obj in ToRemove) {
                 GameObjects.Remove(obj);
             }
 
-            if(carnivore != null && herbivore != null){
-
-            if(carnivore.Location.X > Width-64) {
-            carnivore.Velocity = new Point(-carnivore.Velocity.X, carnivore.Velocity.Y);
-            }
-
-            if(carnivore.Location.X < 0) {
-                carnivore.Velocity = new Point(-carnivore.Velocity.X, carnivore.Velocity.Y);
-            }
-
-            if(herbivore.Location.X > Width-64) {
-                herbivore.Velocity = new Point(-herbivore.Velocity.X, herbivore.Velocity.Y);
-            }
-
-            if(herbivore.Location.X < 0) {
-                herbivore.Velocity = new Point(-herbivore.Velocity.X, herbivore.Velocity.Y);
-            }
-        }
             // Implémentation de la reproduction entre carnviores
             foreach(var carnivore1 in GameObjects.OfType<Carnivore>()) {
                 foreach(var carnivore2 in GameObjects.OfType<Carnivore>()) {
