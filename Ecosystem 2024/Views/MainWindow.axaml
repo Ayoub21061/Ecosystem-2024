@@ -9,6 +9,30 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="Ecosystem_2024">
 
-    
+        <Window.Styles>  
+        <Style Selector="ItemsControl > ContentPresenter" x:DataType="vm:GameObject">  
+            <Setter Property="Canvas.Left" Value="{Binding Location.X}" />  
+            <Setter Property="Canvas.Top" Value="{Binding Location.Y}" />  
+        </Style>  
+    </Window.Styles>  
 
+    <Grid>
+        <!-- ItemsControl pour les GameObjects -->
+        <ItemsControl ItemsSource="{Binding GameObjects}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.DataTemplates>
+                <DataTemplate DataType="{x:Type vm:Carnivore}">
+                    <Grid>
+                        <!-- Image de l'animal -->
+                        <Image Width="64" Height="64" Source="{Binding CurrentImage}" />
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.DataTemplates>
+        </ItemsControl>
+    </Grid>
 </Window>

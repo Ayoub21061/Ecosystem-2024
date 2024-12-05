@@ -16,10 +16,17 @@ namespace Ecosystem_2024.ViewModels;
 
 public partial class MainWindowViewModel : GameBase
 {
+    public Carnivore carnivore;
+    public int Width {get;} = 800;
+
+    public int Height {get;} = 450;
     
        // Liste des objets à afficher
     public ObservableCollection<GameObject> GameObjects { get; } = new();
-    public MainWindowViewModel() {}
+    public MainWindowViewModel() {
+        carnivore = new Carnivore(new Point(Width/2, Height/2));
+        GameObjects.Add(carnivore);
+    }
 
     protected override void Tick() {}
 
