@@ -23,6 +23,7 @@ public partial class MainWindowViewModel : GameBase
 
     public int Height {get;} = 450;
     List<GameObject> ToRemove = new List<GameObject>();
+    List<GameObject> ToAdd = new List<GameObject>(); 
 
     
     // Liste des objets à afficher
@@ -131,6 +132,40 @@ public partial class MainWindowViewModel : GameBase
                 herbivore.Velocity = new Point(-herbivore.Velocity.X, herbivore.Velocity.Y);
             }
         }
+            // Implémentation de la reproduction entre carnviores
+            foreach(var carnivore1 in GameObjects.OfType<Carnivore>()) {
+                foreach(var carnivore2 in GameObjects.OfType<Carnivore>()) {
+
+                    if (carnivore1 != carnivore2) {
+
+                        if (Math.Abs(carnivore1.Location.X - carnivore2.Location.X) < 5 && 
+                            Math.Abs(carnivore1.Location.Y - carnivore2.Location.Y) < 5 && 
+                            carnivore1.CanReproduce && carnivore2.CanReproduce)
+                        {
+                            Console.WriteLine("Reproduction !");
+                            var BabyPosition = new Point((carnivore1.Location.X + carnivore2.Location.X) / 2, (carnivore1.Location.Y + carnivore2.Location.Y) / 2 );
+
+                            var BabyCarnivore = new Carnivore(BabyPosition);
+                            ToAdd.Add(BabyCarnivore);
+
+                            // Met à jour le temps de la reproduction de chaque animal ayant eu recours à celle-ci.
+                            carnivore1.SetReproductionCooldown();
+                            carnivore2.SetReproductionCooldown();
+
+                            // // Permet de ne pas créer une infinité de bébé
+                            // break;
+                        }
+                    } 
+                }
+            }
+
+            // On rajoute chaque objet de la liste ToAdd à la liste des objets affiché dans l'application qui est la liste GameObjects.
+            foreach(GameObject obj in ToAdd) {
+                GameObjects.Add(obj);
+            }
+
+            // On nettoie la liste après avoir ajouté des objets 
+            ToAdd.Clear();
             
 
 

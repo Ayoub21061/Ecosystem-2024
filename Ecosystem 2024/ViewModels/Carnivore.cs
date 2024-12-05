@@ -33,6 +33,20 @@ public partial class Carnivore : GameObject {
 
     public double Vision {get; set;} = 100;
     public double Speed {get; set;} = 2.0;
+    // On crée un cooldown qui permet de contrôler l'intervalle de temps entre chaque reproduction d'animal, permet d'éviter la création d'une infinité d'animal.
+    private const int CoolDownTime = 5000;
+    // On crée une variable qui va stocker le temps de la dernière reproduction entre chaque animal
+    public DateTime LastReproductionTime {get; private set;} = DateTime.MinValue;
+    // On crée un booléen qui permet la comparaison entre le temps actuel qui s'est écoulé depuis le lancement de l'application et le temps de la dernière reproduction.
+    // Si celle-ci est plus grande que le cooldown imposé précedemment, alors la repoduction est possible et passe à True.
+    public bool CanReproduce => (DateTime.Now - LastReproductionTime).TotalMilliseconds > CoolDownTime;
+
+    // Pour chaque reproduction réalisé, on impose que le temps de la dernière reproduvction vaut le temps pour lequel la reporduction a eu lieu.
+    // Permet d'actualiser le booléen CanReproduce correctement.
+    public void SetReproductionCooldown() {
+        LastReproductionTime = DateTime.Now;
+    }
+
     
     public Carnivore(Point location) : base(location) {
         Energy = 100;
