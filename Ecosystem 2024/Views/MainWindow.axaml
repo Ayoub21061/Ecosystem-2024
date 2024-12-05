@@ -39,6 +39,14 @@
                     <Grid>
                         <!-- Image de l'animal -->
                         <Image Width="64" Height="64" Source="{Binding CurrentImage}" />
+
+                        <!-- Points de vie affichés en dessous -->
+                        <TextBlock Text="{Binding Energy}" 
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Margin="0,64,0,0"
+                                   Foreground="White"
+                                   FontSize="14" />
                     </Grid>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type vm:Herbivore}">

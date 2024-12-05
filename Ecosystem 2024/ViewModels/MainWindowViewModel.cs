@@ -33,6 +33,8 @@ public partial class MainWindowViewModel : GameBase
         GameObjects.Add(herbivore);
     }
 
-    protected override void Tick() {}
+    protected override void Tick() {
+        carnivore.ReduceEnergy();
+    }
 
 }
