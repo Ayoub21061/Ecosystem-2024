@@ -62,35 +62,35 @@ public partial class MainWindowViewModel : GameBase
                 }            
             }
 
-            if (closestHerbivore != null)
-            {
-                // Calcul de la direction vers la cible
-                var direction = new Point(
-                    closestHerbivore.Location.X - carnivore.Location.X,
-                    closestHerbivore.Location.Y - carnivore.Location.Y
-                );
-
-                // Calcul de la magnitude (distance)
-                var magnitude = Math.Sqrt(direction.X * direction.X + direction.Y * direction.Y);
-
-                if (magnitude > 0)
+                if (closestHerbivore != null)
                 {
-                    // On crée un vecteur normalisé qui permettra d'établir le vecteur le plus petit possible pour parvenir le plus rapidement possible à la position de la proie. Egalement le vecteur le plus facile à initialiser pour le déplacement en 2D des être vivants. On met également à jour la vitesse du prédateur qui dépend de la position de la proie.
-                    direction = new Point(direction.X / magnitude, direction.Y / magnitude);
-                    carnivore.Velocity = new Point(direction.X * carnivore.Speed, direction.Y * carnivore.Speed);
-                }
+                    // Calcul de la direction vers la cible
+                    var direction = new Point(
+                        closestHerbivore.Location.X - carnivore.Location.X,
+                        closestHerbivore.Location.Y - carnivore.Location.Y
+                    );
 
-                // Cela permet de gérer les collisions de chaque carnivore selon la distance qu'ils ont avec leur cible herbivore
-                if(magnitude < 5)
-                {
-                    ToRemove.Add(closestHerbivore);
-                    Console.WriteLine("Je t'ai mangé");
-                    carnivore.Energy += 20;
-                }
-            }  
-                carnivore.Move();   
+                    // Calcul de la magnitude (distance)
+                    var magnitude = Math.Sqrt(direction.X * direction.X + direction.Y * direction.Y);
+
+                    if (magnitude > 0)
+                    {
+                        // On crée un vecteur normalisé qui permettra d'établir le vecteur le plus petit possible pour parvenir le plus rapidement possible à la position de la proie. Egalement le vecteur le plus facile à initialiser pour le déplacement en 2D des être vivants. On met également à jour la vitesse du prédateur qui dépend de la position de la proie.
+                        direction = new Point(direction.X / magnitude, direction.Y / magnitude);
+                        carnivore.Velocity = new Point(direction.X * carnivore.Speed, direction.Y * carnivore.Speed);
+                    }
+
+                    // Cela permet de gérer les collisions de chaque carnivore selon la distance qu'ils ont avec leur cible herbivore
+                    if(magnitude < 5)
+                    {
+                        ToRemove.Add(closestHerbivore);
+                        Console.WriteLine("Je t'ai mangé");
+                        carnivore.Energy += 20;
+                    }
+                }  
+                    carnivore.Move();   
             }
-            
+
             if (obj is Herbivore herbivore) {
                 herbivore.Move();
             }
@@ -98,6 +98,28 @@ public partial class MainWindowViewModel : GameBase
             foreach(GameObject obj in ToRemove) {
                 GameObjects.Remove(obj);
             }
+
+            if(carnivore != null && herbivore != null){
+
+            if(carnivore.Location.X > Width-64) {
+            carnivore.Velocity = new Point(-carnivore.Velocity.X, carnivore.Velocity.Y);
+            }
+
+            if(carnivore.Location.X < 0) {
+                carnivore.Velocity = new Point(-carnivore.Velocity.X, carnivore.Velocity.Y);
+            }
+
+            if(herbivore.Location.X > Width-64) {
+                herbivore.Velocity = new Point(-herbivore.Velocity.X, herbivore.Velocity.Y);
+            }
+
+            if(herbivore.Location.X < 0) {
+                herbivore.Velocity = new Point(-herbivore.Velocity.X, herbivore.Velocity.Y);
+            }
+        }
+
+
+
 
         
 
