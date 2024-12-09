@@ -8,6 +8,7 @@ using Avalonia.Controls.Documents;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media.Imaging;
 using Avalonia.Metadata;
+using Avalonia.Platform;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Ecosystem_2024.ViewModels;
@@ -18,7 +19,7 @@ public partial class Carnivore : GameObject {
     private Point velocity = new Point(1.0 , 0.0); 
 
     [ObservableProperty]
-    private Bitmap currentImage = new Bitmap("Assets/Carnivore.png");   
+    private Bitmap currentImage = new Bitmap(AssetLoader.Open(new Uri("avares://Ecosystem 2024/Assets/Carnivore.png")));   
 
     [ObservableProperty]
     private int energy;
@@ -72,7 +73,7 @@ public partial class Carnivore : GameObject {
 
     public void Die() {
         isDead = true;
-        CurrentImage = new Bitmap("Assets/Viande.png");
+        CurrentImage = new Bitmap(AssetLoader.Open(new Uri("avares://Ecosystem 2024/Assets/Viande.png")));
     }
     public void ReduceEnergy() {
         if(!isDead) {
@@ -98,7 +99,7 @@ public partial class Carnivore : GameObject {
         if(Healthpoints == 0) {
             OrganicWasteTime--;
                 if(OrganicWasteTime == 0) {
-                    CurrentImage = new Bitmap("Assets/Déchet.png");
+                    CurrentImage = new Bitmap(AssetLoader.Open(new Uri("avares://Ecosystem 2024/Assets/Déchet.png")));
                 }
         }
     }
