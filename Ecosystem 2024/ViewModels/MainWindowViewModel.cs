@@ -19,6 +19,8 @@ public partial class MainWindowViewModel : GameBase
 {
     public Carnivore? carnivore;
     public Herbivore? herbivore;
+
+    public Plante? plante;
     public int Width {get;} = 800;
 
     public int Height {get;} = 450;
@@ -151,6 +153,10 @@ public partial class MainWindowViewModel : GameBase
                 if(herbivore.Location.Y < 0) {
                     herbivore.Velocity = new Point(herbivore.Velocity.X, -herbivore.Velocity.Y);
                 }
+            }
+
+            if(obj is Plante plante) {
+                plante.OrganicWaste();
             }
         }
             foreach(GameObject obj in ToRemove) {

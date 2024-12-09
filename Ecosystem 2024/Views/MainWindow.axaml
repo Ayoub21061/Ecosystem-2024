@@ -82,7 +82,7 @@
                 <DataTemplate DataType="{x:Type vm:Plante}">
                     <Grid>
                         <Image Width="64" Height="64"  
-                           Source="/Assets/Plante.png" />
+                           Source="{Binding CurrentImagePlant}" />
 
                         <TextBlock Text="{Binding Energy}"
                                    HorizontalAlignment="Center"
