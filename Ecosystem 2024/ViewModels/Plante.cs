@@ -24,14 +24,15 @@ public partial class Plante : GameObject {
 
     [ObservableProperty]
     private bool isDead = false; 
+    public double Rayon {get; set;} = 100;
     
     // Constructeur 
     public Plante (Point location) : base(location) {
         Energy = 100;
-        Healthpoints = 100;
+        Healthpoints = 200;
     }
 
-    public void OrganicWaste() {
+    public void ReduceEnergy() {
         if(!IsDead) {
             Energy--;
             if(Energy <= 0) {
@@ -49,5 +50,14 @@ public partial class Plante : GameObject {
                 CurrentImagePlant = new Bitmap(AssetLoader.Open(new Uri("avares://Ecosystem 2024/Assets/Déchet.png")));
             }
         }  
+    }
+
+    public bool Saw_Waste(GameObject other) {
+        // Formule de la distance 
+        var distancePlant = Math.Sqrt(
+            Math.Pow(Location.X - other.Location.X, 2) +
+            Math.Pow(Location.Y - other.Location.Y, 2));
+        // Si la distance est plus petite que le rayon de vision de l'animal, alors l'animal target l'être vivant.
+        return distancePlant <= Rayon;  
     }
 }

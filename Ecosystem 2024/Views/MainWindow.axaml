@@ -58,10 +58,11 @@
 
                     </Grid>
                 </DataTemplate>
+
                 <DataTemplate DataType="{x:Type vm:Herbivore}">
                     <Grid>
                         <Image Width="64" Height="64"  
-                           Source="/Assets/Herbivore.png" />
+                           Source="{Binding CurrentImage}" />
 
                         <TextBlock Text="{Binding Energy}"
                                    HorizontalAlignment="Center"
@@ -77,8 +78,8 @@
                                    Foreground="Yellow"
                                    FontSize="14" /> 
                     </Grid>
-        
                 </DataTemplate>
+
                 <DataTemplate DataType="{x:Type vm:Plante}">
                     <Grid>
                         <Image Width="64" Height="64"  
@@ -99,7 +100,7 @@
                                    FontSize="14" /> 
                     </Grid>
                 </DataTemplate>
-
+        
             </ItemsControl.DataTemplates>
         </ItemsControl>
     </Grid>

@@ -156,54 +156,76 @@ public partial class MainWindowViewModel : GameBase
             }
 
             if(obj is Plante plante) {
-                plante.OrganicWaste();
-            }
-        }
-            foreach(GameObject obj in ToRemove) {
-                GameObjects.Remove(obj);
-            }
+                plante.ReduceEnergy();
 
-            // Implémentation de la reproduction entre carnviores
-            foreach(var carnivore1 in GameObjects.OfType<Carnivore>()) {
-                foreach(var carnivore2 in GameObjects.OfType<Carnivore>()) {
+                GameObject? closestOrganicWaste = null;
+                double closestDistance = double.MaxValue;
 
-                    if (carnivore1 != carnivore2) {
-
-                        if (Math.Abs(carnivore1.Location.X - carnivore2.Location.X) < 5 && 
-                            Math.Abs(carnivore1.Location.Y - carnivore2.Location.Y) < 5 && 
-                            carnivore1.CanReproduce && carnivore2.CanReproduce)
+                foreach (var other in GameObjects)
+                {
+                    if (other is Herbivore || other is Carnivore)
+                    {
+                        if (other is Carnivore carn && carn.IsDechet() && plante.Saw_Waste(other))
                         {
-                            Console.WriteLine("Reproduction !");
-                            var BabyPosition = new Point((carnivore1.Location.X + carnivore2.Location.X) / 2, (carnivore1.Location.Y + carnivore2.Location.Y) / 2 );
+                            var distance = Math.Sqrt(
+                                Math.Pow(plante.Location.X - carn.Location.X, 2) +
+                                Math.Pow(plante.Location.Y - carn.Location.Y, 2)
+                            );
 
-                            var BabyCarnivore = new Carnivore(BabyPosition);
-                            ToAdd.Add(BabyCarnivore);
-
-                            // Met à jour le temps de la reproduction de chaque animal ayant eu recours à celle-ci.
-                            carnivore1.SetReproductionCooldown();
-                            carnivore2.SetReproductionCooldown();
-
-                            // // Permet de ne pas créer une infinité de bébé
-                            // break;
+                            if (distance < closestDistance)
+                            {
+                                closestDistance = distance;
+                                closestOrganicWaste = carn;
+                            }
                         }
-                    } 
+                    }
+                }
+
+                if (closestOrganicWaste != null)
+                {
+                    ToRemove.Add(closestOrganicWaste);
+                    plante.Energy += 30;
                 }
             }
+        }
 
-            // On rajoute chaque objet de la liste ToAdd à la liste des objets affiché dans l'application qui est la liste GameObjects.
-            foreach(GameObject obj in ToAdd) {
-                GameObjects.Add(obj);
+        foreach(GameObject obj in ToRemove) {
+            GameObjects.Remove(obj);
+        }
+
+        // Implémentation de la reproduction entre carnviores
+        foreach(var carnivore1 in GameObjects.OfType<Carnivore>()) {
+            foreach(var carnivore2 in GameObjects.OfType<Carnivore>()) {
+
+                if (carnivore1 != carnivore2) {
+
+                    if (Math.Abs(carnivore1.Location.X - carnivore2.Location.X) < 5 && 
+                        Math.Abs(carnivore1.Location.Y - carnivore2.Location.Y) < 5 && 
+                        carnivore1.CanReproduce && carnivore2.CanReproduce)
+                    {
+                        Console.WriteLine("Reproduction !");
+                        var BabyPosition = new Point((carnivore1.Location.X + carnivore2.Location.X) / 2, (carnivore1.Location.Y + carnivore2.Location.Y) / 2 );
+
+                        var BabyCarnivore = new Carnivore(BabyPosition);
+                        ToAdd.Add(BabyCarnivore);
+
+                        // Met à jour le temps de la reproduction de chaque animal ayant eu recours à celle-ci.
+                        carnivore1.SetReproductionCooldown();
+                        carnivore2.SetReproductionCooldown();
+
+                        // // Permet de ne pas créer une infinité de bébé
+                        // break;
+                    }
+                } 
             }
+        }
 
-            // On nettoie la liste après avoir ajouté des objets 
-            ToAdd.Clear();
-            
+        // On rajoute chaque objet de la liste ToAdd à la liste des objets affiché dans l'application qui est la liste GameObjects.
+        foreach(GameObject obj in ToAdd) {
+            GameObjects.Add(obj);
+        }
 
-
-
-
-        
-
-        
+        // On nettoie la liste après avoir ajouté des objets 
+        ToAdd.Clear();
     }
 }

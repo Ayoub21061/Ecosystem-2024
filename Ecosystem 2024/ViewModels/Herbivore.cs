@@ -1,6 +1,9 @@
+using System;
 using System.Buffers.Text;
 using System.ComponentModel.DataAnnotations.Schema;
 using Avalonia;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Ecosystem_2024.ViewModels;
@@ -14,6 +17,9 @@ public partial class Herbivore : GameObject {
 
     [ObservableProperty]
     private int healthpoints;
+
+    [ObservableProperty]
+    public Bitmap currentImage = new Bitmap(AssetLoader.Open(new Uri("avares://Ecosystem 2024/Assets/Herbivore.png")));
 
     public Herbivore(Point location) : base(location) {
         Energy = 150;

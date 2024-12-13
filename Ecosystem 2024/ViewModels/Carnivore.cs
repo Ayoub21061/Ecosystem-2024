@@ -31,6 +31,7 @@ public partial class Carnivore : GameObject {
     private int organicWasteTime;
 
     private bool isDead;
+    private bool isOrganicWaste;
 
     public double Vision {get; set;} = 100;
     public double Speed {get; set;} = 2.0;
@@ -73,6 +74,7 @@ public partial class Carnivore : GameObject {
 
     public void Die() {
         isDead = true;
+        isOrganicWaste = false;
         CurrentImage = new Bitmap(AssetLoader.Open(new Uri("avares://Ecosystem 2024/Assets/Viande.png")));
     }
     public void ReduceEnergy() {
@@ -96,11 +98,16 @@ public partial class Carnivore : GameObject {
     }
 
     public void OrganicWaste() {
-        if(Healthpoints == 0) {
+        if(!isOrganicWaste && Healthpoints <= 0) {
             OrganicWasteTime--;
-                if(OrganicWasteTime == 0) {
-                    CurrentImage = new Bitmap(AssetLoader.Open(new Uri("avares://Ecosystem 2024/Assets/Déchet.png")));
-                }
+            if(OrganicWasteTime == 0) {
+                isOrganicWaste = true;
+                CurrentImage = new Bitmap(AssetLoader.Open(new Uri("avares://Ecosystem 2024/Assets/Déchet.png")));
+            }
         }
+    }
+
+    public bool IsDechet() {
+        return isOrganicWaste;
     }
 }
