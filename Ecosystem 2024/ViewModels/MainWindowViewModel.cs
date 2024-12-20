@@ -32,9 +32,13 @@ public partial class MainWindowViewModel : GameBase
     public ObservableCollection<GameObject> GameObjects { get; } = new();
     public MainWindowViewModel() {
         var carnivores = new List<Carnivore>() {
-            new Carnivore(new Point(Width/2, Height/2)),
-            new Carnivore(new Point(Width / 2 + 50, Height / 2 + 50)),
-            new Carnivore(new Point(Width / 2 + 100, Height / 2 + 100))
+            new Male(new Point(Width/2, Height/2)),
+            new Male(new Point(Width / 2 + 50, Height / 2 + 50)),
+            new Male(new Point(Width / 2 + 100, Height / 2 + 100)),
+            new Femelle(new Point(Width/2 + 20, Height/2 + 20)),
+            new Femelle(new Point(Width / 2 + 70, Height / 2 + 70)),
+            new Femelle(new Point(Width / 2 + 120, Height / 2 + 120))
+
         };
 
         foreach(var carnivore in carnivores) {
@@ -220,29 +224,29 @@ public partial class MainWindowViewModel : GameBase
         }
 
         // Implémentation de la reproduction entre carnviores
-        foreach(var carnivore1 in GameObjects.OfType<Carnivore>()) {
-            foreach(var carnivore2 in GameObjects.OfType<Carnivore>()) {
+        foreach(var femelle in GameObjects.OfType<Femelle>()) {
+            foreach(var male in GameObjects.OfType<Male>()) {
 
-                if (carnivore1 != carnivore2) {
+                // if (femelle != male) {
 
-                    if (Math.Abs(carnivore1.Location.X - carnivore2.Location.X) < 5 && 
-                        Math.Abs(carnivore1.Location.Y - carnivore2.Location.Y) < 5 && 
-                        carnivore1.CanReproduce && carnivore2.CanReproduce)
+                    if (Math.Abs(femelle.Location.X - male.Location.X) < 5 && 
+                        Math.Abs(femelle.Location.Y - male.Location.Y) < 5 && 
+                        femelle.CanReproduce && male.CanReproduce)
                     {
                         Console.WriteLine("Reproduction !");
-                        var BabyPosition = new Point((carnivore1.Location.X + carnivore2.Location.X) / 2, (carnivore1.Location.Y + carnivore2.Location.Y) / 2 );
+                        var BabyPosition = new Point((femelle.Location.X + male.Location.X) / 2, (male.Location.Y + femelle.Location.Y) / 2 );
 
                         var BabyCarnivore = new Carnivore(BabyPosition);
                         ToAdd.Add(BabyCarnivore);
 
                         // Met à jour le temps de la reproduction de chaque animal ayant eu recours à celle-ci.
-                        carnivore1.SetReproductionCooldown();
-                        carnivore2.SetReproductionCooldown();
+                        femelle.SetReproductionCooldown();
+                        male.SetReproductionCooldown();
 
                         // // Permet de ne pas créer une infinité de bébé
                         // break;
                     }
-                } 
+                // } 
             }
         }
 
