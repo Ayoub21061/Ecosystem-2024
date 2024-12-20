@@ -52,10 +52,10 @@ public partial class MainWindowViewModel : GameBase
         }
 
         var Plantes = new List<Plante>() {
-            new Plante(new Point((Width + 1)*2 / 3, Height/3)),
-            new Plante(new Point((Width + 50)*2 / 3, Height/3)),
-            new Plante(new Point((Width + 150)*2 / 3 , Height/3)),
-            new Plante(new Point((Width + 250)*2 / 3, Height/3))
+            new Plante(new Point((Width + 1) *2 / 3, Height/3)),
+            new Plante(new Point((Width + 50) *2 / 3, Height/3)),
+            new Plante(new Point((Width + 150) *2 / 3, Height/3)),
+            new Plante(new Point((Width + 250) *2 / 3, Height/3))
         };
 
         foreach(var plante in Plantes) {
@@ -68,6 +68,14 @@ public partial class MainWindowViewModel : GameBase
             if (obj is Carnivore carnivore) {
                 carnivore.ReduceEnergy();
                 carnivore.OrganicWaste();
+
+            // Permet de gérer la défecation des carnivores
+            var poop = carnivore.Poop();
+            if (poop != null) {
+                ToAdd.Add(poop);
+            }
+
+
 
             GameObject? closestHerbivore = null;
             double closestDistance = double.MaxValue;
@@ -126,11 +134,11 @@ public partial class MainWindowViewModel : GameBase
                     carnivore.Velocity = new Point(-carnivore.Velocity.X, carnivore.Velocity.Y);
                     }   
 
-                    if(carnivore.Location.Y > Height-64) {
+                    if(carnivore.Location.Y > Height) {
                         carnivore.Velocity = new Point(carnivore.Velocity.X, -carnivore.Velocity.Y);
                     }
 
-                    if(carnivore.Location.Y < 0 ) {
+                    if(carnivore.Location.Y < 32) {
                         carnivore.Velocity = new Point(carnivore.Velocity.X, -carnivore.Velocity.Y);
                     }
             }
@@ -155,38 +163,56 @@ public partial class MainWindowViewModel : GameBase
                 }
             }
 
-            if(obj is Plante plante) {
+            if (obj is Plante plante){
                 plante.ReduceEnergy();
 
                 GameObject? closestOrganicWaste = null;
                 double closestDistance = double.MaxValue;
 
-                foreach (var other in GameObjects)
-                {
-                    if (other is Herbivore || other is Carnivore)
+                // Identifier les carnivores (Cranivore carn) quand ils deviennent des déchets organiques (carn.IsDechet) et les consommer si ils sont à proximité (plante.Saw_Waste(other)).
+                foreach (var other in GameObjects) {
+                    if (other is Carnivore carn && carn.IsDechet() && plante.Saw_Waste(other) || other is OrganicWaste waste && plante.Saw_Waste(other)) 
                     {
-                        if (other is Carnivore carn && carn.IsDechet() && plante.Saw_Waste(other))
+                        // On calcule la distance entre la plante et le déchet organique
+                        var distance = Math.Sqrt(
+                            Math.Pow(plante.Location.X - other.Location.X, 2) +
+                            Math.Pow(plante.Location.Y - other.Location.Y, 2)
+                        );
+                        // Si la distance est plus petite que la distance la plus proche, alors on met à jour la distance la plus proche et le déchet organique le plus proche.
+                        if (distance < closestDistance)
                         {
-                            var distance = Math.Sqrt(
-                                Math.Pow(plante.Location.X - carn.Location.X, 2) +
-                                Math.Pow(plante.Location.Y - carn.Location.Y, 2)
-                            );
-
-                            if (distance < closestDistance)
-                            {
-                                closestDistance = distance;
-                                closestOrganicWaste = carn;
-                            }
+                            closestDistance = distance;
+                            closestOrganicWaste = other;
                         }
                     }
                 }
 
+                // Si un déchet organique est détecté, on identifie la plante la plus proche qui consomme le déchet organique.
                 if (closestOrganicWaste != null)
                 {
-                    ToRemove.Add(closestOrganicWaste);
-                    plante.Energy += 30;
+                    Plante? closestPlant = null;
+                    double minPlantDistance = double.MaxValue;
+
+                    foreach (var otherPlant in GameObjects.OfType<Plante>()) {
+                        // On établit la distance entre la plante et le déchet organique
+                        var plantDistance = Math.Sqrt(
+                            Math.Pow(otherPlant.Location.X - closestOrganicWaste.Location.X, 2) +
+                            Math.Pow(otherPlant.Location.Y - closestOrganicWaste.Location.Y, 2)
+                        );
+
+                        if (plantDistance < minPlantDistance) {
+                                minPlantDistance = plantDistance;
+                                closestPlant = otherPlant;
+                        }
+                    }
+
+                    // Seule la plante la plus proche consomme le déchet
+                    if (closestPlant == plante && minPlantDistance <= plante.Rayon) {
+                            ToRemove.Add(closestOrganicWaste);
+                            plante.Energy += 30;
+                    }
                 }
-            }
+            }   
         }
 
         foreach(GameObject obj in ToRemove) {

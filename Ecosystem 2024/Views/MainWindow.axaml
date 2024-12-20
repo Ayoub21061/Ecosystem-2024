@@ -59,6 +59,12 @@
                     </Grid>
                 </DataTemplate>
 
+                <DataTemplate DataType="{x:Type vm:OrganicWaste}">
+                    <Grid>
+                        <Image Width="32" Height="32" Source="{Binding CurrentImagePoop}" />
+                    </Grid>
+                </DataTemplate>
+
                 <DataTemplate DataType="{x:Type vm:Herbivore}">
                     <Grid>
                         <Image Width="64" Height="64"  
