@@ -236,8 +236,17 @@ public partial class MainWindowViewModel : GameBase
                         Console.WriteLine("Reproduction !");
                         var BabyPosition = new Point((femelle.Location.X + male.Location.X) / 2, (male.Location.Y + femelle.Location.Y) / 2 );
 
-                        var BabyCarnivore = new Male(BabyPosition); // Ici je dois créer un objet enfant qui sera un male ou une femelle (random)
-                        ToAdd.Add(BabyCarnivore);
+                        var random = new Random();
+                        var isMale = random.Next(2);
+
+                        if(isMale == 0) {
+                            var BabyCarnivore = new Male(BabyPosition);
+                            ToAdd.Add(BabyCarnivore);
+                        }
+                        else {
+                            var BabyCarnivore = new Femelle(BabyPosition);
+                            ToAdd.Add(BabyCarnivore);
+                        }
 
                         // Met à jour le temps de la reproduction de chaque animal ayant eu recours à celle-ci.
                         femelle.SetReproductionCooldown();
