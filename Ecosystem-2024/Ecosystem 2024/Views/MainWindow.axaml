@@ -7,7 +7,7 @@
         x:Class="Ecosystem_2024.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Ecosystem_2024">
+        Title="The Ecosystem">
 
         <Window.Styles>  
         <Style Selector="ItemsControl > ContentPresenter" x:DataType="vm:GameObject">  
