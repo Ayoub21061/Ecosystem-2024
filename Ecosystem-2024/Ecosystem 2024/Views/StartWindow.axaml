@@ -1,0 +1,18 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Ecosystem_2024.Views.StartWindow"
+        Title="Ecosystem - Created by Pierrot and Ayoub"
+        Width="800" Height="600">
+    <Grid>
+
+        <Image Source="/Assets/ecosysteme.png"
+               Stretch="UniformToFill" 
+               HorizontalAlignment="Stretch" 
+               VerticalAlignment="Stretch" />
+        
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Ecosystem 2024" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <TextBlock Text="Appuyer sur X pour commencer" FontSize="24" HorizontalAlignment="Center" Margin="0,20,0,0"/>
+        </StackPanel>
+    </Grid>
+</Window>

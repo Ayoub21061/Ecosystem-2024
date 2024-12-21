@@ -1,6 +1,6 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:Ecosystem_2024.ViewModels"
+        xmlns:vm="clr-namespace:Ecosystem_2024.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -130,27 +130,6 @@
                         <Image Width="32" Height="32" Source="{Binding CurrentImagePoop}" />
                     </Grid>
                 </DataTemplate>
-
-                <!-- <DataTemplate DataType="{x:Type vm:Herbivore}">
-                    <Grid>
-                        <Image Width="64" Height="64"  
-                           Source="{Binding CurrentImage}" />
-
-                        <TextBlock Text="{Binding Energy}"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Top"
-                                   Margin="0,64,0,0"
-                                   Foreground="Purple"
-                                   FontSize="14" /> 
-
-                        <TextBlock Text="{Binding Healthpoints}"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Top"
-                                   Margin="0,78,0,0"
-                                   Foreground="Yellow"
-                                   FontSize="14" /> 
-                    </Grid>
-                </DataTemplate> -->
 
                 <DataTemplate DataType="{x:Type vm:Plante}">
                     <Grid>

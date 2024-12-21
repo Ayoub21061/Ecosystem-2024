@@ -1,11 +1,13 @@
 using Avalonia.Controls;
+using System;
 
-namespace Ecosystem_2024.Views;
-
-public partial class MainWindow : Window
+namespace Ecosystem_2024.Views
 {
-    public MainWindow()
+    public partial class MainWindow : Window
     {
-        InitializeComponent();
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
     }
 }
