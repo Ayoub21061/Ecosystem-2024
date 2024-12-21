@@ -42,14 +42,20 @@ public partial class Carnivore : GameObject {
     private const int CoolDownPoop = 3000;
    
     // On crée une variable qui va stocker le temps de la dernière reproduction entre chaque animal
-    public DateTime LastReproductionTime {get; private set;} = DateTime.MinValue;
+    public DateTime LastReproductionTime {get; set;} = DateTime.MinValue;
 
      // On crée une variable qui va stocker le temps de la dernière défécation du carnivore.
-    public DateTime LastPoopTime {get; private set;} = DateTime.MinValue;
+    public DateTime LastPoopTime {get; set;} = DateTime.MinValue;
     // On crée un booléen qui permet la comparaison entre le temps actuel qui s'est écoulé depuis le lancement de l'application et le temps de la dernière reproduction.
     // Si celle-ci est plus grande que le cooldown imposé précedemment, alors la repoduction est possible et passe à True.
     public bool CanReproduce => (DateTime.Now - LastReproductionTime).TotalMilliseconds > CoolDownTime;
     public bool CanPoop => (DateTime.Now - LastPoopTime).TotalMilliseconds > CoolDownPoop;
+
+    public Carnivore(Point location, int energy, int healthpoints, int organicWasteTime) : base(location) {
+        this.Energy = energy;
+        this.Healthpoints = healthpoints;
+        this.OrganicWasteTime = organicWasteTime;
+    }
 
     // Pour chaque reproduction réalisé, on impose que le temps de la dernière reproduvction vaut le temps pour lequel la reporduction a eu lieu.
     // Permet d'actualiser le booléen CanReproduce correctement.
@@ -73,14 +79,6 @@ public partial class Carnivore : GameObject {
         }   
 
         return null; // Si le cooldown n'est pas écoulé, aucun déchet n'est créé
-    }
-
-
-    
-    public Carnivore(Point location) : base(location) {
-        Energy = 100;
-        Healthpoints = 100;
-        OrganicWasteTime = 50;
     }
 
     // Code qui permet de calculer la distance entre un carnivore et un autre être vivant

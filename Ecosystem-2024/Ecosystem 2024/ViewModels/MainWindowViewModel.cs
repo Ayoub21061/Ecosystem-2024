@@ -17,12 +17,7 @@ namespace Ecosystem_2024.ViewModels;
 
 public partial class MainWindowViewModel : GameBase
 {
-    public Carnivore? carnivore;
-    public Herbivore? herbivore;
-
-    public Plante? plante;
     public int Width {get;} = 800;
-
     public int Height {get;} = 450;
     List<GameObject> ToRemove = new List<GameObject>();
     List<GameObject> ToAdd = new List<GameObject>(); 
@@ -32,13 +27,12 @@ public partial class MainWindowViewModel : GameBase
     public ObservableCollection<GameObject> GameObjects { get; } = new();
     public MainWindowViewModel() {
         var carnivores = new List<Carnivore>() {
-            new Male(new Point(Width/2, Height/2)),
-            new Male(new Point(Width / 2 + 50, Height / 2 + 50)),
-            new Male(new Point(Width / 2 + 100, Height / 2 + 100)),
-            new Femelle(new Point(Width/2 + 20, Height/2 + 20)),
-            new Femelle(new Point(Width / 2 + 70, Height / 2 + 70)),
-            new Femelle(new Point(Width / 2 + 120, Height / 2 + 120))
-
+            new MaleCarnivore(new Point(Width / 2, Height / 2)),
+            new MaleCarnivore(new Point(Width / 2 + 50, Height / 2 + 50)),
+            new MaleCarnivore(new Point(Width / 2 + 100, Height / 2 + 100)),
+            new FemelleCarnivore(new Point(Width / 2 + 20, Height / 2 + 20)),
+            new FemelleCarnivore(new Point(Width / 2 + 70, Height / 2 + 70)),
+            new FemelleCarnivore(new Point(Width / 2 + 120, Height / 2 + 120))
         };
 
         foreach(var carnivore in carnivores) {
@@ -46,9 +40,14 @@ public partial class MainWindowViewModel : GameBase
         }
         
         var herbivores = new List<Herbivore>() {
-            new Herbivore(new Point(Width / 2 + 10, Height / 2 + 10)),
-            new Herbivore(new Point(Width / 2 + 60, Height / 2 + 30)),
-            new Herbivore(new Point(Width / 2 + 80, Height / 2 + 80))
+            new MaleHerbivore(new Point(Width / 2 + 10, Height / 2 + 10)),
+            new MaleHerbivore(new Point(Width / 2 + 60, Height / 2 + 30)),
+            new MaleHerbivore(new Point(Width / 2 + 80, Height / 2 + 80)),
+            new MaleHerbivore(new Point(Width / 2 + 200, Height / 2 + 200)),
+            new FemelleHerbivore(new Point(Width / 2 + 30, Height / 2 + 30)),
+            new FemelleHerbivore(new Point(Width / 2 + 80, Height / 2 + 50)),
+            new FemelleHerbivore(new Point(Width / 2 + 100, Height / 2 + 100)),
+            new FemelleHerbivore(new Point(Width / 2 + 200, Height / 2 + 200))
         };
 
         foreach(var herbivore in herbivores) {
@@ -56,10 +55,10 @@ public partial class MainWindowViewModel : GameBase
         }
 
         var Plantes = new List<Plante>() {
-            new Plante(new Point((Width + 1) *2 / 3, Height/3)),
-            new Plante(new Point((Width + 50) *2 / 3, Height/3)),
-            new Plante(new Point((Width + 150) *2 / 3, Height/3)),
-            new Plante(new Point((Width + 250) *2 / 3, Height/3))
+            new Plante(new Point((Width + 1) * 2 / 3, Height / 3)),
+            new Plante(new Point((Width + 50) * 2 / 3, Height / 3)),
+            new Plante(new Point((Width + 150) * 2 / 3, Height / 3)),
+            new Plante(new Point((Width + 250) * 2 / 3, Height / 3))
         };
 
         foreach(var plante in Plantes) {
@@ -73,13 +72,10 @@ public partial class MainWindowViewModel : GameBase
                 carnivore.ReduceEnergy();
                 carnivore.OrganicWaste();
 
-            // Permet de gérer la défecation des carnivores
-            var poop = carnivore.Poop();
-            if (poop != null) {
-                ToAdd.Add(poop);
-            }
-
-
+                var poop = carnivore.Poop();
+                if(poop != null) {
+                    ToAdd.Add(poop);
+                }   
 
             GameObject? closestHerbivore = null;
             double closestDistance = double.MaxValue;
@@ -120,7 +116,7 @@ public partial class MainWindowViewModel : GameBase
                         carnivore.Velocity = new Point(direction.X * carnivore.Speed, direction.Y * carnivore.Speed);
                     }
 
-                    // Cela permet de gérer les collisions de chaque carnivore selon la distance qu'ils ont avec leur cible herbivore
+                    // Cela permet de gérer les collisions de chaque carnivore selon la distance qu'ils ont avec leurs cibles herbivores
                     if(magnitude < 5)
                     {
                         ToRemove.Add(closestHerbivore);
@@ -219,44 +215,39 @@ public partial class MainWindowViewModel : GameBase
             }   
         }
 
-        foreach(GameObject obj in ToRemove) {
-            GameObjects.Remove(obj);
-        }
-
         // Implémentation de la reproduction entre carnviores
-        foreach(var femelle in GameObjects.OfType<Femelle>()) {
-            foreach(var male in GameObjects.OfType<Male>()) {
-
-                // if (femelle != male) {
-
-                    if (Math.Abs(femelle.Location.X - male.Location.X) < 5 && 
-                        Math.Abs(femelle.Location.Y - male.Location.Y) < 5 && 
-                        femelle.CanReproduce && male.CanReproduce)
+        foreach(var femelleCarn in GameObjects.OfType<FemelleCarnivore>()) {
+            foreach(var maleCarn in GameObjects.OfType<MaleCarnivore>()) {
+                    if (Math.Abs(femelleCarn.Location.X - maleCarn.Location.X) < 5 && 
+                        Math.Abs(femelleCarn.Location.Y - maleCarn.Location.Y) < 5 && 
+                        femelleCarn.CanReproduce && maleCarn.CanReproduce)
                     {
                         Console.WriteLine("Reproduction !");
-                        var BabyPosition = new Point((femelle.Location.X + male.Location.X) / 2, (male.Location.Y + femelle.Location.Y) / 2 );
+                        var BabyPosition = new Point((femelleCarn.Location.X + maleCarn.Location.X) / 2, (maleCarn.Location.Y + femelleCarn.Location.Y) / 2 );
 
                         var random = new Random();
                         var isMale = random.Next(2);
 
                         if(isMale == 0) {
-                            var BabyCarnivore = new Male(BabyPosition);
+                            var BabyCarnivore = new MaleCarnivore(BabyPosition);
                             ToAdd.Add(BabyCarnivore);
                         }
                         else {
-                            var BabyCarnivore = new Femelle(BabyPosition);
+                            var BabyCarnivore = new FemelleCarnivore(BabyPosition);
                             ToAdd.Add(BabyCarnivore);
                         }
 
                         // Met à jour le temps de la reproduction de chaque animal ayant eu recours à celle-ci.
-                        femelle.SetReproductionCooldown();
-                        male.SetReproductionCooldown();
-
-                        // // Permet de ne pas créer une infinité de bébé
-                        // break;
+                        femelleCarn.SetReproductionCooldown();
+                        maleCarn.SetReproductionCooldown();
                     }
-                // } 
             }
+        }
+
+        // Ici on doit implémenter le même système de reproduction pour les herbivores que pour les carnivores
+
+        foreach(GameObject obj in ToRemove) {
+            GameObjects.Remove(obj);
         }
 
         // On rajoute chaque objet de la liste ToAdd à la liste des objets affiché dans l'application qui est la liste GameObjects.

@@ -37,7 +37,7 @@
             <ItemsControl.DataTemplates>
                 
 
-                <DataTemplate DataType="{x:Type vm:Male}">
+                <DataTemplate DataType="{x:Type vm:MaleCarnivore}">
                     <Grid>
                         <!-- Image de l'animal -->
                         <Image Width="64" Height="64" Source="{Binding CurrentImage}" />
@@ -59,7 +59,51 @@
                     </Grid>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type vm:Femelle}">
+                <DataTemplate DataType="{x:Type vm:MaleHerbivore}">
+                    <Grid>
+                        <!-- Image de l'animal -->
+                        <Image Width="64" Height="64" Source="{Binding CurrentImage}" />
+
+                        <!-- Points de vie affichés en dessous -->
+                        <TextBlock Text="{Binding Energy}" 
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Margin="0,64,0,0"
+                                   Foreground="Blue"
+                                   FontSize="14" />
+
+                        <TextBlock Text="{Binding Healthpoints}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Margin="0,78,0,0"
+                                   Foreground="Yellow"
+                                   FontSize="14" /> 
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type vm:FemelleHerbivore}">
+                    <Grid>
+                        <!-- Image de l'animal -->
+                        <Image Width="64" Height="64" Source="{Binding CurrentImage}" />
+
+                        <!-- Points de vie affichés en dessous -->
+                        <TextBlock Text="{Binding Energy}" 
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Margin="0,64,0,0"
+                                   Foreground="Pink"
+                                   FontSize="14" />
+
+                        <TextBlock Text="{Binding Healthpoints}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Margin="0,78,0,0"
+                                   Foreground="Yellow"
+                                   FontSize="14" /> 
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type vm:FemelleCarnivore}">
                     <Grid>
                         <!-- Image de l'animal -->
                         <Image Width="64" Height="64" Source="{Binding CurrentImage}" />
@@ -87,7 +131,7 @@
                     </Grid>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type vm:Herbivore}">
+                <!-- <DataTemplate DataType="{x:Type vm:Herbivore}">
                     <Grid>
                         <Image Width="64" Height="64"  
                            Source="{Binding CurrentImage}" />
@@ -106,7 +150,7 @@
                                    Foreground="Yellow"
                                    FontSize="14" /> 
                     </Grid>
-                </DataTemplate>
+                </DataTemplate> -->
 
                 <DataTemplate DataType="{x:Type vm:Plante}">
                     <Grid>

@@ -13,10 +13,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Ecosystem_2024.ViewModels;
 
-public partial class Male : Carnivore {
-    public Male(Point location) : base(location) {
-        Energy = 100;
-        Healthpoints = 100;
+public partial class FemelleCarnivore : Carnivore {
+    public FemelleCarnivore(Point location) : base(location, 100, 100, 50) {
+
     }
-    
 }

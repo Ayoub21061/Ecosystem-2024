@@ -21,9 +21,9 @@ public partial class Herbivore : GameObject {
     [ObservableProperty]
     public Bitmap currentImage = new Bitmap(AssetLoader.Open(new Uri("avares://Ecosystem 2024/Assets/Herbivore.png")));
 
-    public Herbivore(Point location) : base(location) {
-        Energy = 150;
-        Healthpoints = 100;
+    public Herbivore(Point location, int energy, int healthpoints) : base(location) {
+        this.Energy = energy;
+        this.Healthpoints = healthpoints;
     }
 
    public void Move()
