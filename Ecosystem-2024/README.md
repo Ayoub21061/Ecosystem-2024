@@ -10,6 +10,6 @@ Pour ce faire, nous avons utilisé l'application [Avalonia UI](https://avaloniau
 
 - `Diagramme de Classe`
 - `Diagramme de Séquence` 
-- `Diagramme d'activité`
+- `Diagramme d'Activité`
 - `Description de deux principes SOLID`
 
