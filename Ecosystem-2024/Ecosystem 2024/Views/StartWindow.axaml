@@ -5,7 +5,7 @@
         Width="800" Height="600">
     <Grid>
 
-        <Image Source="/Assets/ecosysteme.png"
+        <Image Source="/Assets/Ecosysteme.png"
                Stretch="UniformToFill" 
                HorizontalAlignment="Stretch" 
                VerticalAlignment="Stretch" />
