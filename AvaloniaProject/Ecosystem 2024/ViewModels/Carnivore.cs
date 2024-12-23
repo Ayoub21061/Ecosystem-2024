@@ -57,6 +57,10 @@ public partial class Carnivore : GameObject {
         this.OrganicWasteTime = organicWasteTime;
     }
 
+    public bool CanReproduceIfNotDead() {        
+        return CanReproduce && !isDead;
+    }
+
     // Pour chaque reproduction réalisé, on impose que le temps de la dernière reproduvction vaut le temps pour lequel la reporduction a eu lieu.
     // Permet d'actualiser le booléen CanReproduce correctement.
     public void SetReproductionCooldown() {

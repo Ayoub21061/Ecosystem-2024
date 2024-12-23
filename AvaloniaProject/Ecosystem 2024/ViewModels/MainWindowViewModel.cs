@@ -220,7 +220,7 @@ public partial class MainWindowViewModel : GameBase
             foreach(var maleCarn in GameObjects.OfType<MaleCarnivore>()) {
                     if (Math.Abs(femelleCarn.Location.X - maleCarn.Location.X) < 5 && 
                         Math.Abs(femelleCarn.Location.Y - maleCarn.Location.Y) < 5 && 
-                        femelleCarn.CanReproduce && maleCarn.CanReproduce)
+                        femelleCarn.CanReproduceIfNotDead() && maleCarn.CanReproduceIfNotDead())
                     {
                         Console.WriteLine("Reproduction !");
                         var BabyPosition = new Point((femelleCarn.Location.X + maleCarn.Location.X) / 2, (maleCarn.Location.Y + femelleCarn.Location.Y) / 2 );
