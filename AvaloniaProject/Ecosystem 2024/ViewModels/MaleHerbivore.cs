@@ -14,7 +14,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace Ecosystem_2024.ViewModels;
 
 public partial class MaleHerbivore : Herbivore {
-    public MaleHerbivore(Point location) : base(location, 100, 100) {
+    public MaleHerbivore(Point location) : base(location, 100, 100, 50) {
     
     }
     

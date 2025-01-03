@@ -12,52 +12,44 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace Ecosystem_2024.ViewModels;
 
 public partial class Plante : GameObject {
-
-    [ObservableProperty]
-    private int energy;
-
-    [ObservableProperty]
-    private int healthpoints;
-
-    [ObservableProperty]
-    private Bitmap currentImagePlant = new Bitmap(AssetLoader.Open(new Uri("avares://Ecosystem 2024/Assets/Plante.png"))); 
-
-    [ObservableProperty]
-    private bool isDead = false; 
+    private bool AlreadyCreated = false;
     public double Rayon {get; set;} = 100;
+
+    private const int CooldownPlant = 5000;
+    public DateTime LastTimeCreatedPlant { get; set; } = DateTime.MinValue;
+
+    public bool CanCreatePlant => (DateTime.Now - LastTimeCreatedPlant).TotalMilliseconds > CooldownPlant;
+
     
     // Constructeur 
-    public Plante (Point location) : base(location) {
-        Energy = 100;
-        Healthpoints = 200;
+    public Plante (Point location) : base(location, 200, 200, 50, new Bitmap(AssetLoader.Open(new Uri("avares://Ecosystem 2024/Assets/Plante.png")))) {
+        this.Energy = 200;
+        this.Healthpoints = 200;
+        this.CurrentImage = currentImage;
     }
 
-    public void ReduceEnergy() {
-        if(!IsDead) {
-            Energy--;
-            if(Energy <= 0) {
-                Energy = 0;
-                ReduceHealth();
-            }
-        } 
+       public void SetCreatePlantCooldown() {
+        LastTimeCreatedPlant = DateTime.Now;
     }
 
-    public void ReduceHealth() {
-        if(!IsDead) {
-            Healthpoints--;
-            if(Healthpoints <= 0) {
-                IsDead = true;
-                CurrentImagePlant = new Bitmap(AssetLoader.Open(new Uri("avares://Ecosystem 2024/Assets/Déchet.png")));
-            }
-        }  
-    }
+    // Méthode pour créer une plante à un endroit aléatoire dans un rayon donné
+    public Plante? CreatePlant() {
 
-    public bool Saw_Waste(GameObject other) {
-        // Formule de la distance 
-        var distancePlant = Math.Sqrt(
-            Math.Pow(Location.X - other.Location.X, 2) +
-            Math.Pow(Location.Y - other.Location.Y, 2));
-        // Si la distance est plus petite que le rayon de vision de l'animal, alors l'animal target l'être vivant.
-        return distancePlant <= Rayon;  
+        if(AlreadyCreated) {
+            return null;
+        }
+
+        var random = new Random();
+        double angle = random.NextDouble() * 2 * Math.PI;  // Angle aléatoire
+        double distance = random.NextDouble() * Rayon;  // Distance aléatoire dans le rayon de la plante
+        double newX = Location.X + distance * Math.Cos(angle);
+        double newY = Location.Y + distance * Math.Sin(angle);
+
+        AlreadyCreated = true;
+
+        // Crée une nouvelle plante à la position calculée
+        return new Plante(new Point(newX, newY));
     }
 }
+
+

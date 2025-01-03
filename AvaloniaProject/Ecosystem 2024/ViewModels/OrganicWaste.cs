@@ -8,10 +8,7 @@ namespace Ecosystem_2024.ViewModels;
 
 public partial class OrganicWaste : GameObject
 {
-  
-    [ObservableProperty]
-    private Bitmap currentImagePoop = new Bitmap(AssetLoader.Open(new Uri("avares://Ecosystem 2024/Assets/Déchet.png")));
-    public OrganicWaste(Point location) : base(location)
+    public OrganicWaste(Point location) : base(location, 100, 100, 50, new Bitmap(AssetLoader.Open(new Uri("avares://Ecosystem 2024/Assets/Déchet.png"))))
     {
         Location = location;
     }
